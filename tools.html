@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BharatVerse Tools 🇮🇳</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Hind', sans-serif;
+      background: linear-gradient(to bottom right, #ff9933, #ffffff, #138808);
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #d32f2f;
+      margin-bottom: 10px;
+    }
+    .search-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #searchBox {
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .tabs button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .tabs button.active {
+      background: #0056b3;
+    }
+    .scroll-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      width: 260px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      padding: 15px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .card h2 {
+      font-size: 20px;
+      margin: 10px 0 5px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #444;
+    }
+    .install-btn, .open-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: linear-gradient(to right, #007bff, #0056b3);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌟 BharatVerse Tools</h1>
+
+  <div class="search-bar">
+    <input type="text" id="searchBox" placeholder="🔍 Search tools by name...">
+  </div>
+
+  <div class="tabs">
+    <button class="active" onclick="filterCategory('all')">All</button>
+    <button onclick="filterCategory('scanner')">Scanners</button>
+    <button onclick="filterCategory('converter')">Converters</button>
+    <button onclick="filterCategory('editor')">Editors</button>
+  </div>
+
+  <div class="scroll-container" id="toolCards">
+    <div class="card" data-category="scanner">
+      <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="QR Tool Icon">
+      <h2>QR Tool</h2>
+      <p>Scan & generate QR codes</p>
+      <p><b>Version:</b> 1.0.3 | <b>Size:</b> 2.1MB</p>
+      <a class="install-btn" href="QR_Scanner(3).apk" download>📥 Download APK</a>
+      <a class="open-btn" href="qr-tool.html">ℹ️ View Page</a>
+    </div>
+
+    <div class="card" data-category="converter">
+      <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF Tool Icon">
+      <h2>Image to PDF</h2>
+      <p>Convert images into PDF</p>
+      <p><b>Version:</b> 1.1.0 | <b>Size:</b> 1.8MB</p>
+      <a class="open-btn" href="image2pdf" target="_blank">📂 Open Tool</a>
+    </div>
+  </div>
+
+  <div class="footer">Made with ❤️ in BharatVerse 🇮🇳</div>
+
+<script>
+  function filterCategory(category) {
+    document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      const cardCategory = card.getAttribute('data-category');
+      card.style.display = category === 'all' || cardCategory === category ? 'block' : 'none';
+    });
+  }
+
+  document.getElementById('searchBox').addEventListener('input', function () {
+    const val = this.value.toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+      card.style.display = card.innerText.toLowerCase().includes(val) ? 'block' : 'none';
+    });
+  });
+</script>
+</body>
+</html>
