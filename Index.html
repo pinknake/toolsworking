@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>BharatVerse Tools 🇮🇳</title>
   <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&display=swap" rel="stylesheet">
+ <link rel="manifest" href="manifest.json">
   <style>
     body {
       font-family: 'Hind', sans-serif;
@@ -108,5 +109,39 @@
 
   <div class="footer">Made with ❤️ in BharatVerse 🇮🇳</div>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    const installBtn = document.createElement('button');
+    installBtn.textContent = '➕ Install BharatVerse';
+    installBtn.style.position = 'fixed';
+    installBtn.style.bottom = '20px';
+    installBtn.style.right = '20px';
+    installBtn.style.padding = '10px 16px';
+    installBtn.style.background = '#007bff';
+    installBtn.style.color = '#fff';
+    installBtn.style.border = 'none';
+    installBtn.style.borderRadius = '8px';
+    installBtn.style.zIndex = '9999';
+    installBtn.style.cursor = 'pointer';
+
+    installBtn.onclick = () => {
+      installBtn.remove();
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+      });
+    };
+
+    document.body.appendChild(installBtn);
+  });
+</script>
 </body>
 </html>
