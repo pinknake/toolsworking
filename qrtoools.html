@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Tool - BharatVerse 🇮🇳</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Hind', sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #d32f2f;
+      text-align: center;
+    }
+    .screenshots {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin: 20px 0;
+      justify-content: center;
+    }
+    .screenshots img {
+      height: 300px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .details p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+    .rating-download {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 16px;
+      color: #555;
+    }
+    .rating-stars {
+      color: #ffc107;
+      font-size: 20px;
+    }
+    .btn-row {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .btn {
+      background: linear-gradient(to right, #007bff, #0056b3);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin: 5px;
+      display: inline-block;
+    }
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 40px;
+      color: #666;
+    }
+    .recent-box {
+      margin-top: 40px;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 QR Tool - BharatVerse <span style="font-size: 14px; color: green;">🔥 Trending</span></h1>
+    <div class="screenshots">
+      <img src="https://i.postimg.cc/K8bX5yH1/qr-tool1.jpg" alt="QR Tool Screenshot 1">
+      <img src="https://i.postimg.cc/W1MBLYQY/qr-tool2.jpg" alt="QR Tool Screenshot 2">
+    </div>
+    <div class="details">
+      <p><strong>Version:</strong> 1.0.3</p>
+      <p><strong>Size:</strong> 2.1 MB</p>
+      <p><strong>Description:</strong> This tool allows you to quickly generate and scan QR codes for links, text, or UPI payments. Works offline, supports Hindi and Bengali too.</p>
+    </div>
+    <div class="rating-download">
+      <span class="rating-stars">⭐⭐⭐⭐☆</span> 4.8 (231 votes) <br>
+      📥 5,283+ Downloads
+    </div>
+    <div class="btn-row">
+      <a class="btn" href="QR_Scanner(3).apk" download>📥 Download APK</a>
+      <a class="btn" href="https://api.whatsapp.com/send?text=Try%20this%20QR%20Tool%20by%20BharatVerse:%20https://pinknake.github.io/toolsworking/qr-tool.html" target="_blank">📤 Share on WhatsApp</a>
+      <a class="btn" onclick="copyLink()">🔗 Copy Link</a>
+    </div><div class="recent-box" id="recentBox" style="display:none;">
+  <h3>🕓 Recently Used Tools</h3>
+  <ul id="recentList" style="list-style: none; padding-left: 0;"></ul>
+</div>
+
+<div class="footer">Made with ❤️ in BharatVerse 🇮🇳</div>
+
+  </div>  <script>
+    function copyLink() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        alert("🔗 Link copied to clipboard!");
+      });
+    }
+
+    // Store tool use
+    const toolTitle = "QR Tool";
+    let recent = JSON.parse(localStorage.getItem("recentTools") || "[]");
+    if (!recent.includes(toolTitle)) {
+      recent.unshift(toolTitle);
+      if (recent.length > 5) recent.pop();
+      localStorage.setItem("recentTools", JSON.stringify(recent));
+    }
+
+    // Show recent tools
+    const list = document.getElementById("recentList");
+    const box = document.getElementById("recentBox");
+    if (recent.length > 1) {
+      box.style.display = "block";
+      recent.forEach(t => {
+        if (t !== toolTitle) {
+          const li = document.createElement("li");
+          li.innerHTML = `🔹 ${t}`;
+          list.appendChild(li);
+        }
+      });
+    }
+  </script></body>
+</html>
