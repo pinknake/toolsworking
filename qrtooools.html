@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BharatVerse Tools 🇮🇳</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Hind', sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .dark-mode {
+      background: #121212;
+      color: #eee;
+    }
+    h1 {
+      text-align: center;
+      color: #d32f2f;
+      margin-bottom: 20px;
+    }
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 10px;
+      scroll-snap-type: x mandatory;
+    }
+    .card {
+      background: #fff;
+      min-width: 250px;
+      max-width: 280px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      padding: 15px;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .dark-mode .card {
+      background: #1e1e1e;
+      color: #ccc;
+    }
+    .card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .card h2 {
+      font-size: 20px;
+      margin: 10px 0 5px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #444;
+    }
+    .dark-mode .card p {
+      color: #aaa;
+    }
+    .install-btn, .open-btn {
+      display: inline-block;
+      margin-top: 15px;
+      background: #007bff;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .install-btn:hover, .open-btn:hover {
+      background: #0056b3;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #333;
+    }
+    .dark-mode .footer {
+      color: #aaa;
+    }
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-bar button {
+      margin: 5px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #555;
+      color: white;
+      cursor: pointer;
+    }
+    .dark-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #007bff;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  <h1>🌟 BharatVerse Tools</h1>  <div class="filter-bar">
+    <button onclick="filterTools('all')">All</button>
+    <button onclick="filterTools('trending')">🔥 Trending</button>
+    <button onclick="filterTools('new')">🆕 New</button>
+    <button onclick="filterTools('popular')">📊 Popular</button>
+  </div>  <div class="scroll-container">
+    <div class="card" data-trending="true" data-new="false" data-popular="true">
+      <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="QR Tool Icon">
+      <h2>QR Tool</h2>
+      <p>📥 5.2K+ Downloads<br>⭐ 4.8 (231)</p>
+      <a class="install-btn" href="QR_Scanner (3).apk" download>📥 Install APK</a>
+    </div><div class="card" data-trending="false" data-new="true" data-popular="true">
+  <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF Tool Icon">
+  <h2>Image to PDF</h2>
+  <p>📥 3.1K+ Downloads<br>⭐ 4.7 (89)</p>
+  <a class="open-btn" href="image2pdf" target="_blank">📂 Open Tool</a>
+</div>
+
+  </div>  <div class="footer">Made with ❤️ in BharatVerse 🇮🇳</div>  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+
+    function filterTools(type) {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        if (type === 'all' || card.dataset[type] === 'true') {
+          card.style.display = 'inline-block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script></body>
+</html>
