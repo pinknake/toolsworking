@@ -108,10 +108,11 @@
   </div>
 
   <div class="footer">Made with ❤️ in BharatVerse 🇮🇳</div>
-
 <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('✔️ sw.js registered'))
+      .catch(err => console.error('❌ SW failed', err));
   }
 
   let deferredPrompt;
@@ -131,6 +132,7 @@
     installBtn.style.borderRadius = '8px';
     installBtn.style.zIndex = '9999';
     installBtn.style.cursor = 'pointer';
+    installBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
 
     installBtn.onclick = () => {
       installBtn.remove();
