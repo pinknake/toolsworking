@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - BharatVerse</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 30px;
+    }
+    .panel {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #d32f2f;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f5f5f5;
+    }
+    .approve-btn, .reject-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+    .approve-btn {
+      background-color: #28a745;
+    }
+    .reject-btn {
+      background-color: #dc3545;
+    }
+    .hidden {
+      display: none;
+    }
+    #login {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    #loginBtn {
+      margin-top: 10px;
+      width: 100%;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    img.icon-preview {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+<div id="login">
+  <h2>🔐 Admin Login</h2>
+  <input type="password" id="adminPass" placeholder="Enter Admin Password" />
+  <button id="loginBtn">Login</button>
+</div><div id="adminPanel" class="panel hidden">
+  <h2>🧠 BharatVerse App Submissions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Icon</th>
+        <th>App Info</th>
+        <th>Contact</th>
+        <th>APK</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="submissionList">
+    </tbody>
+  </table>
+</div><script>
+  const correctPassword = "bharatverse123";
+  const loginDiv = document.getElementById("login");
+  const panelDiv = document.getElementById("adminPanel");
+  const tableBody = document.getElementById("submissionList");
+
+  document.getElementById("loginBtn").addEventListener("click", function() {
+    const input = document.getElementById("adminPass").value;
+    if (input === correctPassword) {
+      loginDiv.classList.add("hidden");
+      panelDiv.classList.remove("hidden");
+      loadSubmissions();
+    } else {
+      alert("❌ Incorrect Password");
+    }
+  });
+
+  function loadSubmissions() {
+    const apps = JSON.parse(localStorage.getItem('submittedApps') || '[]');
+    tableBody.innerHTML = '';
+    apps.forEach((app, index) => {
+      if (!app.approved) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><img class="icon-preview" src="${app.iconData}" alt="Icon"></td>
+          <td><strong>${app.appName}</strong><br><small>${app.packageName || 'N/A'}</small><br>${app.description || ''}</td>
+          <td>${app.email}</td>
+          <td><a href="${app.apkData}" download="${app.appName}.apk">📥 Download</a></td>
+          <td>
+            <button class="approve-btn" onclick="approveApp(${index}, this)">Approve</button>
+            <button class="reject-btn" onclick="rejectApp(${index}, this)">Reject</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      }
+    });
+  }
+
+  function approveApp(index, btn) {
+    const apps = JSON.parse(localStorage.getItem('submittedApps') || '[]');
+    apps[index].approved = true;
+    localStorage.setItem('submittedApps', JSON.stringify(apps));
+    btn.parentNode.parentNode.style.backgroundColor = '#d4edda';
+    btn.innerText = "Approved ✅";
+    btn.disabled = true;
+    btn.nextElementSibling.remove();
+  }
+
+  function rejectApp(index, btn) {
+    const apps = JSON.parse(localStorage.getItem('submittedApps') || '[]');
+    apps.splice(index, 1);
+    localStorage.setItem('submittedApps', JSON.stringify(apps));
+    btn.parentNode.parentNode.remove();
+  }
+</script></body>
+</html>
