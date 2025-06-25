@@ -151,11 +151,20 @@
   btn.parentElement.parentElement.remove(); // remove from table
 }
 
-  function reject(index, btn) {
+function reject(index, btn) {
   const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
-  apps[index].status = "Rejected";  // ✅ status update karo
+
+  const reason = prompt("🛑 Enter rejection reason:");
+  if (!reason) {
+    alert("⚠️ Rejection reason is required.");
+    return;
+  }
+
+  apps[index].status = "Rejected";
+  apps[index].reason = reason; // ✅ Save the reason
   localStorage.setItem("submittedApps", JSON.stringify(apps));
-  btn.parentElement.parentElement.remove(); // remove from table
+
+  btn.parentElement.parentElement.remove(); // Remove from table
 }
 </script>
 </body>
