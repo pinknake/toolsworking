@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BharatVerse App Store 🇮🇳</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f8ff;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #121212;
+      color: #f1f1f1;
+    }
+    h1 {
+      text-align: center;
+      color: #d32f2f;
+    }
+    .controls {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .controls input, .controls select {
+      padding: 8px;
+      margin: 5px;
+      font-size: 14px;
+    }
+    .toggle-btn {
+      cursor: pointer;
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .apps-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      color: #000;
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .dark .card {
+      background: #1e1e1e;
+      color: #fff;
+    }
+    .card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+    .card h3 {
+      margin: 10px 0 5px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #444;
+    }
+    .card a, .share-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: #007bff;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .share-btn {
+      background: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌟 BharatVerse App Store</h1>
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search apps..." />
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="Tools">Tools</option>
+      <option value="Games">Games</option>
+      <option value="PDF">PDF</option>
+      <option value="QR">QR</option>
+    </select>
+    <button class="toggle-btn" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</button>
+  </div>  <div class="apps-container" id="approvedApps"></div>  <script>
+    const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+    const container = document.getElementById("approvedApps");
+    const searchInput = document.getElementById("search");
+    const filterSelect = document.getElementById("categoryFilter");
+
+    function renderApps() {
+      container.innerHTML = "";
+      let query = searchInput.value.toLowerCase();
+      let category = filterSelect.value;
+
+      let approvedApps = apps.filter(app => app.approved);
+
+      // Sort by view count descending
+      approvedApps.sort((a, b) => (b.views || 0) - (a.views || 0));
+
+      approvedApps.forEach(app => {
+        if (
+          (category === "all" || app.category === category) &&
+          (app.name.toLowerCase().includes(query) || (app.package || "").toLowerCase().includes(query))
+        ) {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${app.icon}" alt="App Icon" />
+            <h3>${app.name}</h3>
+            <p>${app.description || "No description."}</p>
+            <p><b>Views:</b> ${app.views || 0}</p>
+            <a href="${app.apk}" download onclick="incrementViews('${app.name}')">📥 Download</a>
+            <button class="share-btn" onclick="shareApp('${app.name}', '${app.description}', '${app.apk}')">🔗 Share</button>
+          `;
+          container.appendChild(card);
+        }
+      });
+    }
+
+    function incrementViews(name) {
+      let appIndex = apps.findIndex(a => a.name === name);
+      if (appIndex !== -1) {
+        apps[appIndex].views = (apps[appIndex].views || 0) + 1;
+        localStorage.setItem("submittedApps", JSON.stringify(apps));
+      }
+    }
+
+    function shareApp(name, desc, apk) {
+      const url = window.location.href;
+      const shareData = {
+        title: name,
+        text: `${name} - ${desc}`,
+        url: apk
+      };
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => alert("Could not share."));
+      } else {
+        prompt("Copy this link:", apk);
+      }
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    }
+
+    // Load theme
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark");
+    }
+
+    searchInput.addEventListener("input", renderApps);
+    filterSelect.addEventListener("change", renderApps);
+
+    renderApps();
+  </script></body>
+</html>
