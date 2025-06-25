@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌟 BharatVerse App Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      color: #d32f2f;
+      margin: 0;
+    }
+    #shareStoreBtn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #searchInput {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    #appGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+    .card img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .card h4 {
+      margin: 10px 0 5px;
+      color: #333;
+    }
+    .card p {
+      font-size: 13px;
+      color: #666;
+    }
+    .install-btn {
+      margin-top: 10px;
+      padding: 8px 14px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌐 BharatVerse Store</h1>
+    <button id="shareStoreBtn">Share Store</button>
+  </header>  <input type="text" id="searchInput" placeholder="Search apps...">
+  <div id="appGrid"></div>  <script>
+    const apps = JSON.parse(localStorage.getItem("approvedApps")) || [];
+    const grid = document.getElementById("appGrid");
+    const urlParams = new URLSearchParams(window.location.search);
+    const focusApp = urlParams.get("app");
+
+    function displayApps(filter = "") {
+      grid.innerHTML = "";
+      const filtered = apps.filter(app => app.appName.toLowerCase().includes(filter.toLowerCase()));
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No apps found.</p>";
+        return;
+      }
+
+      filtered.forEach(app => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+          <img src="${app.icon}" alt="icon">
+          <h4>${app.appName}</h4>
+          <p>${app.package || '-'}<br>${app.description || ''}</p>
+          <a href="${app.apk}" download>
+            <button class="install-btn">⬇ Install</button>
+          </a>
+        `;
+
+        if (app.appName.toLowerCase() === (focusApp || '').toLowerCase()) {
+          div.style.border = "3px solid #28a745";
+          setTimeout(() => div.scrollIntoView({ behavior: "smooth" }), 300);
+        }
+
+        grid.appendChild(div);
+      });
+    }
+
+    document.getElementById("searchInput").addEventListener("input", function() {
+      displayApps(this.value);
+    });
+
+    document.getElementById("shareStoreBtn").addEventListener("click", () => {
+      const storeUrl = window.location.origin + window.location.pathname;
+      navigator.clipboard.writeText(storeUrl);
+      alert("✅ Store link copied to clipboard: " + storeUrl);
+    });
+
+    // Load on start
+    displayApps();
+  </script></body>
+</html>
