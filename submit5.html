@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Submit Your App - BharatVerse</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 30px;
+    }
+    .form-container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #d32f2f;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    input[type="file"] {
+      padding: 4px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .note {
+      font-size: 13px;
+      color: #555;
+      margin-top: 10px;
+    }
+    .preview {
+      display: block;
+      margin-top: 10px;
+      max-width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>📲 Submit Your App</h2>
+    <form id="uploadForm">
+      <label for="appName">App Name *</label>
+      <input type="text" id="appName" required />
+
+      <label for="appIcon">App Icon (PNG/JPG) *</label>
+      <input type="file" id="appIcon" accept="image/*" required />
+      <img id="iconPreview" class="preview" />
+
+      <label for="apkFile">APK File *</label>
+      <input type="file" id="apkFile" accept=".apk" required />
+
+      <label for="packageName">Package Name (Optional)</label>
+      <input type="text" id="packageName" placeholder="com.example.app" />
+
+      <label for="email">Email or Phone *</label>
+      <input type="text" id="email" required />
+
+      <label for="description">App Description</label>
+      <textarea id="description" rows="3" placeholder="Brief description of your app..."></textarea>
+
+      <p class="note">* Your app will be reviewed. Approved apps will be listed in the App Store.</p>
+      <button type="submit">📤 Submit for Review</button>
+    </form>
+  </div>
+
+  <!-- Firebase + Submit Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDN-rSOm9uC3L8b4y0X3rEcc_WdMuhVSdQ",
+      authDomain: "alarm-f3202.firebaseapp.com",
+      databaseURL: "https://alarm-f3202-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "alarm-f3202",
+      storageBucket: "alarm-f3202.appspot.com",
+      messagingSenderId: "968337710801",
+      appId: "1:968337710801:web:3ada61fd08ae7944952ff0"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Preview icon
+    document.getElementById("appIcon").addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => document.getElementById("iconPreview").src = e.target.result;
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Submit
+    document.getElementById("uploadForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const appName = document.getElementById('appName').value.trim();
+      const packageName = document.getElementById('packageName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const iconFile = document.getElementById('appIcon').files[0];
+      const apkFile = document.getElementById('apkFile').files[0];
+
+      if (!appName || !email || !iconFile || !apkFile) {
+        alert("⚠️ Please fill all required fields and upload files.");
+        return;
+      }
+
+      // Convert icon to Base64
+      const reader = new FileReader();
+      reader.onload = async function (e) {
+        const iconBase64 = e.target.result;
+
+        const newAppRef = push(ref(db, "apps"));
+        await set(newAppRef, {
+          appName,
+          package: packageName,
+          email,
+          description,
+          apk: apkFile.name,     // NOTE: Just file name for now; in real world, you'd upload this to Firebase Storage
+          icon: iconBase64,
+          date: new Date().toLocaleString(),
+          status: "Pending",
+          reason: ""
+        });
+
+        alert("✅ Your app was submitted successfully!");
+        document.getElementById("uploadForm").reset();
+        document.getElementById("iconPreview").src = "";
+      };
+      reader.readAsDataURL(iconFile);
+    });
+  </script>
+</body>
+</html>
