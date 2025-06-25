@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BharatVerse App Store 🇮🇳</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #d32f2f;
+      margin-bottom: 30px;
+    }
+    .apps-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #555;
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      background: #007bff;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .card a:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌟 BharatVerse Approved Apps</h1>
+
+  <div class="apps-container" id="approvedApps"></div>
+
+  <script>
+    const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+    const approvedApps = apps.filter(app => app.approved === true);
+
+    const container = document.getElementById("approvedApps");
+
+    if (approvedApps.length === 0) {
+      container.innerHTML = "<p>No apps approved yet.</p>";
+    } else {
+      approvedApps.forEach(app => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+          <img src="${app.icon}" alt="App Icon" />
+          <h3>${app.name}</h3>
+          <p>${app.description || "No description available."}</p>
+          <a href="${app.apk}" download>📥 Download</a>
+        `;
+        container.appendChild(div);
+      });
+    }
+  </script>
+
+</body>
+</html>
