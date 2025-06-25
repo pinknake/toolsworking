@@ -152,8 +152,9 @@
           <button class="install-btn" style="margin-top:6px;">🔎 View Details</button>
         </a>
         <br>
-        <button class="share-btn" onclick="shareApp('${app.appName}', '${appUrl}')">📤 Share</button>
-      `;
+        <div class="share-container">
+  <button onclick="shareApp('${id}', '${app.appName}')">📤 Share</button>
+</div>
       grid.appendChild(div);
     });
   }
@@ -162,19 +163,7 @@
     document.body.classList.toggle("dark");
   }
 
-  function shareApp(title, url) {
-    if (navigator.share) {
-      navigator.share({
-        title: title,
-        text: `Check out this app on BharatVerse!`,
-        url: url
-      }).catch(err => console.log('Sharing failed', err));
-    } else {
-      alert("Sharing not supported on this device/browser.");
-    }
-  }
-
-  function shareStore() {
+   shareStore() {
     const url = location.href;
     if (navigator.share) {
       navigator.share({
@@ -238,13 +227,32 @@
             <br>
             <a href="app-details.html?id=${id}" target="_blank">
               <button style="margin-top:6px;">🔎 View Details</button>
+            <div class="share-container">
+  <button onclick="shareApp('${id}', '${app.appName}')">📤 Share</button>
+</div>
             </a>
           `;
           grid.appendChild(div);
         });
     });
   }
-
+window.shareApp = async function(id, name) {
+  const url = `${location.origin}/app-details.html?id=${id}`;
+  
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: `Check out ${name} on BharatVerse`,
+        text: `${name} is now available on BharatVerse!`,
+        url: url
+      });
+    } catch (err) {
+      alert("Sharing cancelled or failed.");
+    }
+  } else {
+    prompt("Copy & share this link:", url);
+  }
+}
   // search filter
   document.getElementById("searchInput").addEventListener("input", function () {
     displayApps(this.value);
@@ -253,5 +261,22 @@
   // Initial Load
   displayApps();
 </script> 
+window.shareApp = async function(id, name) {
+  const url = `${location.origin}/app-details.html?id=${id}`;
+  
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: `Check out ${name} on BharatVerse`,
+        text: `${name} is now available on BharatVerse!`,
+        url: url
+      });
+    } catch (err) {
+      alert("Sharing cancelled or failed.");
+    }
+  } else {
+    prompt("Copy & share this link:", url);
+  }
+}
 </body>
 </html>
