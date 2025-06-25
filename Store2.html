@@ -197,6 +197,23 @@
     appId: "1:968337710801:web:3ada61fd08ae7944952ff0"
   };
 
+  window.shareApp = async function(id, name) {
+  const url = `${location.origin}/app-details.html?id=${id}`;
+  
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: `Check out ${name} on BharatVerse`,
+        text: `${name} is now available on BharatVerse!`,
+        url: url
+      });
+    } catch (err) {
+      alert("Sharing cancelled or failed.");
+    }
+  } else {
+    prompt("Copy & share this link:", url);
+  }
+}
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
@@ -218,41 +235,20 @@
           const div = document.createElement("div");
           div.className = "card";
           div.innerHTML = `
-            <img src="${app.icon}" alt="icon">
-            <h4>${app.appName}</h4>
-            <p>${app.package || '-'}<br>${app.description || ''}</p>
-            <a href="${app.apk}" download>
-              <button class="install-btn">⬇ Install</button>
-            </a>
-            <br>
-            <a href="app-details.html?id=${id}" target="_blank">
-              <button style="margin-top:6px;">🔎 View Details</button>
-            <div class="share-container">
-  <button onclick="shareApp('${id}', '${app.appName}')">📤 Share</button>
+            <div class="card">
+  <img src="${app.icon}" alt="icon">
+  <h4>${app.appName}</h4>
+  <p>${app.package}<br>${app.description}</p>
+  <a href="${app.apk}" download><button>⬇ Install</button></a>
+  <a href="app-details.html?id=${app.index}" target="_blank"><button>🔎 View Details</button></a>
+  <button onclick="shareApp('${app.index}', '${app.appName}')">📤 Share</button>
 </div>
-            </a>
           `;
           grid.appendChild(div);
         });
     });
   }
-window.shareApp = async function(id, name) {
-  const url = `${location.origin}/app-details.html?id=${id}`;
-  
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: `Check out ${name} on BharatVerse`,
-        text: `${name} is now available on BharatVerse!`,
-        url: url
-      });
-    } catch (err) {
-      alert("Sharing cancelled or failed.");
-    }
-  } else {
-    prompt("Copy & share this link:", url);
-  }
-}
+
   // search filter
   document.getElementById("searchInput").addEventListener("input", function () {
     displayApps(this.value);
@@ -261,22 +257,5 @@ window.shareApp = async function(id, name) {
   // Initial Load
   displayApps();
 </script> 
-window.shareApp = async function(id, name) {
-  const url = `${location.origin}/app-details.html?id=${id}`;
-  
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: `Check out ${name} on BharatVerse`,
-        text: `${name} is now available on BharatVerse!`,
-        url: url
-      });
-    } catch (err) {
-      alert("Sharing cancelled or failed.");
-    }
-  } else {
-    prompt("Copy & share this link:", url);
-  }
-}
 </body>
 </html>
