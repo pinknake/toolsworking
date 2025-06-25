@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BharatVerse App Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #d32f2f;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    .share-store-btn {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background: #ffffff22;
+      color: #fff;
+      border: 1px solid white;
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+    .container {
+      padding: 20px;
+    }
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .toggle-dark {
+      padding: 10px;
+      border: none;
+      background: #444;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .card img {
+      max-width: 80px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    .install-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .share-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    footer {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    .dark {
+      background: #222;
+      color: white;
+    }
+    .dark .card {
+      background: #333;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  🇮🇳 BharatVerse App Store
+  <button class="share-store-btn" onclick="shareStore()">🔗 Share Store</button>
+</header>
+
+<div class="container">
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍 Search apps...">
+    <button class="toggle-dark" onclick="toggleDark()">🌙 Toggle Mode</button>
+  </div>
+  <div class="grid" id="appGrid"></div>
+</div>
+
+<footer>
+  © 2025 BharatVerse | 
+  <a href="submit4.html" style="color:#ffd">Submit App</a> | 
+  <a href="myapp2.html" style="color:#ffd">My Apps</a>
+</footer>
+
+<script>
+  const apps = JSON.parse(localStorage.getItem("approvedApps")) || [];
+  const grid = document.getElementById("appGrid");
+
+  function displayApps(filter = "") {
+    grid.innerHTML = "";
+    const filtered = apps
+      .map((app, index) => ({ ...app, index }))
+      .filter(app => app.appName.toLowerCase().includes(filter.toLowerCase()));
+
+    if (filtered.length === 0) {
+      grid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No apps found.</p>";
+      return;
+    }
+
+    filtered.forEach(app => {
+      const appUrl = `${location.origin}/app-details.html?appid=${app.index}`;
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <img src="${app.icon}" alt="icon">
+        <h4>${app.appName}</h4>
+        <p>${app.package || '-'}<br>${app.description || ''}</p>
+        <a href="${app.apk}" download>
+          <button class="install-btn">⬇ Install</button>
+        </a>
+        <br>
+        <a href="app-details.html?appid=${app.index}" target="_blank">
+          <button class="install-btn" style="margin-top:6px;">🔎 View Details</button>
+        </a>
+        <br>
+        <button class="share-btn" onclick="shareApp('${app.appName}', '${appUrl}')">📤 Share</button>
+      `;
+      grid.appendChild(div);
+    });
+  }
+
+  function toggleDark() {
+    document.body.classList.toggle("dark");
+  }
+
+  function shareApp(title, url) {
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: `Check out this app on BharatVerse!`,
+        url: url
+      }).catch(err => console.log('Sharing failed', err));
+    } else {
+      alert("Sharing not supported on this device/browser.");
+    }
+  }
+
+  function shareStore() {
+    const url = location.href;
+    if (navigator.share) {
+      navigator.share({
+        title: "BharatVerse App Store",
+        text: "Explore amazing Indian apps on BharatVerse!",
+        url: url
+      });
+    } else {
+      alert("Sharing not supported on this device/browser.");
+    }
+  }
+
+  document.getElementById("searchInput").addEventListener("input", function () {
+    displayApps(this.value);
+  });
+
+  // Initial load
+  displayApps();
+</script>
+</body>
+</html>
