@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Submitted Apps - BharatVerse</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #d32f2f;
+    }
+    .app-list {
+      max-width: 700px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .app {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .app:last-child {
+      border-bottom: none;
+    }
+    .status {
+      font-weight: bold;
+    }
+    .pending { color: orange; }
+    .approved { color: green; }
+    .rejected { color: red; }
+    .date { font-size: 13px; color: #555; }
+  </style>
+</head>
+<body>
+  <h2>📜 My Submitted Apps</h2>
+  <div class="app-list" id="myApps"></div>  <script>
+    const container = document.getElementById("myApps");
+    const data = JSON.parse(localStorage.getItem("submittedApps")) || [];
+
+    if (data.length === 0) {
+      container.innerHTML = "<p style='text-align:center'>No apps submitted yet.</p>";
+    } else {
+      data.forEach(app => {
+        const div = document.createElement("div");
+        div.className = "app";
+        div.innerHTML = `
+          <h3>${app.appName}</h3>
+          <p><strong>Package:</strong> ${app.package || 'N/A'}</p>
+          <p><strong>Email:</strong> ${app.email}</p>
+          <p class="status ${app.status.toLowerCase()}">Status: ${app.status}</p>
+          <p class="date">Submitted on: ${app.date}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+  </script></body>
+</html>
