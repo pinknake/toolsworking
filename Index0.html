@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🇮🇳 BharatVerse App Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #ff9933;
+      padding: 15px;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    #searchInput {
+      width: 80%;
+      max-width: 400px;
+      margin: 20px auto;
+      display: block;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    #appList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      width: 240px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 16px;
+      text-align: center;
+    }
+    .card img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .install-btn {
+      margin-top: 10px;
+      background: #007bff;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    footer {
+      background: #138808;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>🚀 BharatVerse App Store
+  </header>  <input type="text" id="searchInput" placeholder="🔍 Search your app..." onkeyup="filterApps()">  <div id="appList"></div>  <footer>
+    <p>Made with ❤️ in BharatVerse 🇮🇳</p>
+    <p>
+      <a href="submit.html">📎 Submit App</a>
+      | <a href="myapps.html">📈 My Uploads</a>
+      | <a href="admin.html">🔒 Admin Panel</a>
+    </p>
+  </footer>  <script>
+    function loadApprovedApps() {
+      const appListDiv = document.getElementById('appList');
+      const apps = JSON.parse(localStorage.getItem('submittedApps')) || [];
+      const approved = apps.filter(app => app.approved);
+
+      appListDiv.innerHTML = "";
+      approved.forEach(app => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${app.icon}" alt="App Icon">
+          <h2>${app.appName}</h2>
+          <p>${app.description || 'No description.'}</p>
+          <a class="install-btn" href="${app.apk}" download>\ud83d\udcc2 Install</a>
+        `;
+        appListDiv.appendChild(card);
+      });
+    }
+
+    function filterApps() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".card");
+      cards.forEach(card => {
+        const name = card.querySelector("h2").innerText.toLowerCase();
+        card.style.display = name.includes(input) ? "block" : "none";
+      });
+    }
+
+    loadApprovedApps();
+  </script></body>
+</html>
