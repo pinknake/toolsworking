@@ -91,6 +91,8 @@
             <td>${app.package || '-'}</td>
             <td>${app.email}</td>
             <td class="${app.status === 'Approved' ? 'status-approved' : 'status-pending'}">${app.status}</td>
+            <p>Status: <strong>${app.status}</strong></p>
+            ${app.status === "Rejected" && app.reason ? `<p style="color:red;">Reason: ${app.reason}</p>` : ""}
             <td>${app.date || '-'}</td>
           </tr>
         `;
