@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>App Details - BharatVerse</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; }
+    img { width: 100px; height: 100px; object-fit: cover; }
+    h2 { margin-top: 0; }
+    .rating-stars span { font-size: 24px; cursor: pointer; color: gray; }
+    .rating-stars .filled { color: gold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img id="appIcon" />
+    <h2 id="appName">App Name</h2>
+    <p><b>Package:</b> <span id="appPackage"></span></p>
+    <p><b>Description:</b> <span id="appDescription"></span></p>
+    <p><b>Download:</b> <a id="apkLink" href="#" download>⬇ Click to Download</a></p>
+    <hr>
+    <h3>⭐ Rate This App</h3>
+    <div class="rating-stars" id="stars"></div>
+  </div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDN-rSOm9uC3L8b4y0X3rEcc_WdMuhVSdQ",
+    authDomain: "alarm-f3202.firebaseapp.com",
+    databaseURL: "https://alarm-f3202-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "alarm-f3202",
+    storageBucket: "alarm-f3202.appspot.com",
+    messagingSenderId: "968337710801",
+    appId: "1:968337710801:web:3ada61fd08ae7944952ff0"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const id = new URLSearchParams(location.search).get("id");
+
+  const appRef = ref(db, "approvedApps/" + id);
+  get(appRef).then(snapshot => {
+    const app = snapshot.val();
+    if (!app) return alert("App not found");
+
+    document.getElementById("appIcon").src = app.icon;
+    document.getElementById("appName").textContent = app.appName;
+    document.getElementById("appPackage").textContent = app.package || "-";
+    document.getElementById("appDescription").textContent = app.description || "-";
+    document.getElementById("apkLink").href = app.apk;
+
+    setupRating(app.rating || 0);
+  });
+
+  function setupRating(currentRating = 0) {
+    const starsDiv = document.getElementById("stars");
+    for (let i = 1; i <= 5; i++) {
+      const span = document.createElement("span");
+      span.textContent = "★";
+      if (i <= currentRating) span.classList.add("filled");
+      span.addEventListener("click", () => {
+        update(ref(db, "approvedApps/" + id), { rating: i });
+        setupRating(i);
+        alert("⭐ Thank you for rating!");
+      });
+      starsDiv.appendChild(span);
+    }
+  }
+</script>
+</body>
+</html>
