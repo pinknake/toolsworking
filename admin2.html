@@ -145,18 +145,18 @@
   }
 
   function approve(index, btn) {
-    const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
-    apps[index].approved = true;
-    localStorage.setItem("submittedApps", JSON.stringify(apps));
-    btn.parentElement.parentElement.remove();
-  }
+  const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+  apps[index].status = "Approved";  // ✅ status update karo
+  localStorage.setItem("submittedApps", JSON.stringify(apps));
+  btn.parentElement.parentElement.remove(); // remove from table
+}
 
   function reject(index, btn) {
-    const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
-    apps.splice(index, 1); // remove from array
-    localStorage.setItem("submittedApps", JSON.stringify(apps));
-    btn.parentElement.parentElement.remove();
-  }
+  const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+  apps[index].status = "Rejected";  // ✅ status update karo
+  localStorage.setItem("submittedApps", JSON.stringify(apps));
+  btn.parentElement.parentElement.remove(); // remove from table
+}
 </script>
 </body>
 </html>
