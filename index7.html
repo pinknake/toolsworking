@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BharatVerse App Store</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+    h1 { text-align: center; color: #d32f2f; }
+    .app-card {
+      background: #fff; border-radius: 10px; box-shadow: 0 2px 6px #aaa;
+      padding: 15px; margin: 15px auto; max-width: 500px;
+      display: flex; gap: 15px; align-items: center;
+    }
+    .app-card img { width: 60px; height: 60px; object-fit: contain; }
+    .app-info { flex-grow: 1; }
+    .download-btn {
+      padding: 8px 12px; background: #007bff; color: #fff;
+      text-decoration: none; border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📲 BharatVerse App Store</h1>
+  <div id="storeContainer"></div>
+
+  <script>
+    const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+    const approved = apps.filter(app => app.approved);
+
+    const container = document.getElementById("storeContainer");
+
+    if (approved.length === 0) {
+      container.innerHTML = "<p>No approved apps yet.</p>";
+    } else {
+      approved.forEach(app => {
+        const div = document.createElement("div");
+        div.className = "app-card";
+        div.innerHTML = `
+          <img src="${app.icon}" alt="icon">
+          <div class="app-info">
+            <h3>${app.name}</h3>
+            <p>${app.package || "No package name"}</p>
+            <a href="${app.apk}" class="download-btn" download>📥 Download</a>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
