@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - BharatVerse</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 30px;
+    }
+    .panel {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #d32f2f;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f5f5f5;
+    }
+    .approve-btn, .reject-btn, .delete-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    .approve-btn { background-color: #28a745; }
+    .reject-btn { background-color: #dc3545; }
+    .delete-btn { background-color: #6c757d; }
+    .hidden {
+      display: none;
+    }
+    #login {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    #loginBtn {
+      margin-top: 10px;
+      width: 100%;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="login">
+  <h2>🔐 Admin Login</h2>
+  <input type="password" id="adminPass" placeholder="Enter Admin Password" />
+  <button id="loginBtn">Login</button>
+</div>
+
+<div id="adminPanel" class="panel hidden">
+  <h2>🧠 BharatVerse App Submissions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>App</th>
+        <th>Package</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="submissionList"></tbody>
+  </table>
+</div>
+
+<script>
+  const correctPassword = "bharatverse123";
+  const loginDiv = document.getElementById("login");
+  const panelDiv = document.getElementById("adminPanel");
+
+  document.getElementById("loginBtn").addEventListener("click", () => {
+    const input = document.getElementById("adminPass").value;
+    if (input === correctPassword) {
+      loginDiv.classList.add("hidden");
+      panelDiv.classList.remove("hidden");
+      loadSubmissions();
+    } else {
+      alert("❌ Incorrect Password");
+    }
+  });
+
+  function loadSubmissions() {
+    const list = document.getElementById("submissionList");
+    list.innerHTML = "";
+    const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+
+    apps.forEach((app, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><strong>${app.appName}</strong></td>
+        <td>${app.package || '-'}</td>
+        <td>${app.email}</td>
+        <td>${app.status || 'Pending'} ${app.reason ? `<br><small style="color:red;">Reason: ${app.reason}</small>` : ''}</td>
+        <td>
+          <button class="approve-btn" onclick="approve(${index})">Approve</button>
+          <button class="reject-btn" onclick="reject(${index})">Reject</button>
+          <button class="delete-btn" onclick="removeApp(${index})">Delete</button>
+        </td>
+      `;
+      list.appendChild(row);
+    });
+  }
+
+  function approve(index) {
+    const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+    apps[index].status = "Approved";
+    delete apps[index].reason;
+    localStorage.setItem("submittedApps", JSON.stringify(apps));
+    loadSubmissions();
+  }
+
+  function reject(index) {
+    const reason = prompt("Enter rejection reason:");
+    if (!reason) return alert("Rejection reason required.");
+    const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+    apps[index].status = "Rejected";
+    apps[index].reason = reason;
+    localStorage.setItem("submittedApps", JSON.stringify(apps));
+    loadSubmissions();
+  }
+
+  function removeApp(index) {
+    if (confirm("Are you sure you want to permanently delete this app?")) {
+      const apps = JSON.parse(localStorage.getItem("submittedApps")) || [];
+      apps.splice(index, 1);
+      localStorage.setItem("submittedApps", JSON.stringify(apps));
+      loadSubmissions();
+    }
+  }
+</script>
+
+</body>
+</html>
