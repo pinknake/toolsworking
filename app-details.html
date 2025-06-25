@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>App Details - BharatVerse</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f0f0f0;
+    }
+    .box {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin: 0;
+      color: #d32f2f;
+    }
+    .info {
+      margin-top: 15px;
+    }
+    .info strong {
+      display: inline-block;
+      width: 130px;
+      color: #555;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      background: #007bff;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box" id="detailsBox">
+  <p>Loading app details...</p>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const appid = parseInt(urlParams.get("appid"));
+  const approvedApps = JSON.parse(localStorage.getItem("approvedApps")) || [];
+
+  if (!isNaN(appid) && approvedApps[appid]) {
+    const app = approvedApps[appid];
+    const html = `
+      <img class="icon" src="${app.icon}" alt="${app.appName} icon" />
+      <h2>${app.appName}</h2>
+      <div class="info"><strong>Package:</strong> ${app.package || "-"}</div>
+      <div class="info"><strong>Email/Phone:</strong> ${app.email}</div>
+      <div class="info"><strong>Description:</strong> ${app.description || "No description"}</div>
+      <div class="info"><strong>Submitted On:</strong> ${app.date || "-"}</div>
+      <a class="btn" href="${app.apk}" download>📥 Download APK</a>
+    `;
+    document.getElementById("detailsBox").innerHTML = html;
+  } else {
+    document.getElementById("detailsBox").innerHTML = `<p>❌ App not found.</p>`;
+  }
+</script>
+
+</body>
+</html>
