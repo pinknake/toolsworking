@@ -112,6 +112,18 @@ h1,h2 {
       🎁 Unlock Tool
     </button>
   </div>
+
+<!-- CARD 2 : OPEN TOOL -->
+  <div class="card">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png">">
+    <h3>Image to PDF</h3>
+    <p>Convert images into PDF</p>
+
+    <button class="reward-btn"
+      onclick="showAdAndOpen('QR_Scanner.apk')">
+      🎁 Unlock Tool
+    </button>
+  </div>
         
 </div>
 
@@ -146,7 +158,14 @@ function showAdAndOpen(url) {
     window.open(url, '_blank');
   });
 }
-        
+        function showAdAndOpen(url) {
+  show_10446775('pop').then(() => {
+    // ✅ Ad complete → open tool
+    window.open(url, '_blank');
+  }).catch(() => {
+    window.open(url, '_blank');
+  });
+        }
 </script>
 
 </body>
