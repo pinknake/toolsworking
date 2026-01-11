@@ -100,6 +100,19 @@ h1,h2 {
     </button>
   </div>
 
+
+  <!-- CARD 3 : OPEN TOOL -->
+  <div class="card">
+    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
+    <h3>Image to PDF</h3>
+    <p>Convert images into PDF</p>
+
+    <button class="reward-btn"
+      onclick="showAdAndOpen('https://pinknake.github.io/notesvault/VT')">
+      🎁 Unlock Tool
+    </button>
+  </div>
+        
 </div>
 
 <div class="footer">Made with ❤️ in BharatVerse 🇮🇳</div>
@@ -124,6 +137,16 @@ function showAdAndOpen(url) {
     window.open(url, '_blank');
   });
 }
+
+function showAdAndOpen(url) {
+  show_10446775('pop').then(() => {
+    // ✅ Ad complete → open tool
+    window.open(url, '_blank');
+  }).catch(() => {
+    window.open(url, '_blank');
+  });
+}
+        
 </script>
 
 </body>
