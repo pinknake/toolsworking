@@ -167,6 +167,23 @@ function showAdAndOpen(url) {
   });
         }
 </script>
+        <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  // 🔥 AUTO IN-APP INTERSTITIAL
+  show_10446775({
+    type: 'inApp',
+    inAppSettings: {
+      frequency: 2,     // kitni baar
+      capping: 0.1,     // 6 min
+      interval: 30,     // gap
+      timeout: 5,       // delay
+      everyPage: false
+    }
+  });
+
+});
+</script>
 
 </body>
 </html>
