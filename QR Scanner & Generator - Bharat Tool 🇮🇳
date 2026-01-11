@@ -1,0 +1,50 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: http://127.0.0.1:8080/QR-Mergae.html
+Subject: =?utf-8?Q?QR=20Scanner=20&=20Generator=20-=20Bharat=20Tool=20=F0=9F=87=AE?=
+ =?utf-8?Q?=F0=9F=87=B3?=
+Date: Sun, 22 Jun 2025 16:57:04 +0530
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--GshoJ1BtP1vD5Yml8JHFG9nalOFKTT2CBC8bi5fYd4----"
+
+
+------MultipartBoundary--GshoJ1BtP1vD5Yml8JHFG9nalOFKTT2CBC8bi5fYd4----
+Content-Type: text/html
+Content-ID: <frame-0F6C510D30C0E868BE151097B462F9CD@mhtml.blink>
+Content-Transfer-Encoding: binary
+Content-Location: http://127.0.0.1:8080/QR-Mergae.html
+
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="cid:css-98703928-e139-457d-b0c8-54e7b27458af@mhtml.blink" />
+  <title>QR Scanner &amp; Generator - Bharat Tool 🇮🇳</title>
+  
+  
+  
+</head>
+<body>
+  <h2>🇮🇳 Bharat QR Tool</h2>  <!-- QR Generator Section -->  <textarea id="qrText" placeholder="Enter text, URL, or payment link..."></textarea><button>Generate QR 📦</button>
+
+  <div id="qrcode"></div>
+  <button>⬇️ Download QR</button>  <hr>  <!-- QR Scanner Section -->  <div id="reader" style="width: 300px; position: relative;"></div>
+  <input type="file" accept="image/*">
+  <div id="result">📄 Scanned result will appear here...</div>  <!-- History Section -->  <h3>📜 Scan History</h3>
+  <div id="history"></div>  
+
+</body></html>
+------MultipartBoundary--GshoJ1BtP1vD5Yml8JHFG9nalOFKTT2CBC8bi5fYd4----
+Content-Type: text/css
+Content-Transfer-Encoding: binary
+Content-Location: cid:css-98703928-e139-457d-b0c8-54e7b27458af@mhtml.blink
+
+@charset "utf-8";
+
+body { font-family: sans-serif; background: rgb(249, 249, 249); padding: 20px; text-align: center; }
+
+input, textarea, select, button { padding: 10px; margin: 10px auto; width: 90%; max-width: 400px; font-size: 16px; display: block; }
+
+#reader, #qrcode { margin: 20px auto auto; }
+
+#result, #history { background: rgb(255, 255, 255); padding: 10px; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px; margin: 10px auto; width: 90%; max-width: 400px; }
+
+.history-item { margin: 5px 0px; border-bottom: 1px solid rgb(221, 221, 221); }
+------MultipartBoundary--GshoJ1BtP1vD5Yml8JHFG9nalOFKTT2CBC8bi5fYd4------
