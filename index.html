@@ -72,47 +72,56 @@ h1,h2 {
 
 <body>
 
-<h2>🇮🇳 BharatVerse App Tools Store</h2>
+<h2 style="text-align:center;">🇮🇳 BharatVerse App Tools Store</h2>
 
 <div class="scroll-container">
 
-<!-- CARD 1 -->
-<div class="card">
-  <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png">
-  <h3>QR Tool</h3>
-  <p>Scan & generate QR codes</p>
+  <!-- CARD 1 : APK DOWNLOAD -->
+  <div class="card">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png">
+    <h3>QR Tool</h3>
+    <p>Scan & generate QR codes</p>
 
-  <button class="reward-btn" onclick="watchAd()">
-    🎁 Watch Ad to Download
-  </button>
-</div>
+    <button class="reward-btn"
+      onclick="showAdAndDownload('QR_Scanner(3).apk')">
+      🎁 Watch Ad to Download
+    </button>
+  </div>
 
-<!-- CARD 2 -->
-<div class="card">
-  <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
-  <h3>Image to PDF</h3>
-  <p>Convert images into PDF</p>
+  <!-- CARD 2 : OPEN TOOL -->
+  <div class="card">
+    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
+    <h3>Image to PDF</h3>
+    <p>Convert images into PDF</p>
 
-  <button class="reward-btn" onclick="watchAd()">
-    🎁 Unlock Tool
-  </button>
-</div>
+    <button class="reward-btn"
+      onclick="showAdAndOpen('image2pdf')">
+      🎁 Unlock Tool
+    </button>
+  </div>
 
 </div>
 
 <div class="footer">Made with ❤️ in BharatVerse 🇮🇳</div>
 
-<!-- ✅ REWARDED AD SCRIPT -->
+<!-- ✅ MONETAG REWARDED AD LOGIC -->
 <script>
-function watchAd() {
+function showAdAndDownload(fileUrl) {
   show_10446775().then(() => {
-    alert("✅ Ad watched successfully!\nReward unlocked 🎉");
-    
-    // 👉 Yahan reward logic daal sakta hai
-    // example: window.location.href = "QR_Scanner(3).apk";
-
+    // ✅ Ad complete → download
+    window.location.href = fileUrl;
   }).catch(() => {
-    alert("❌ Ad failed or blocked. Try again.");
+    // ❌ Ad fail → still allow
+    window.location.href = fileUrl;
+  });
+}
+
+function showAdAndOpen(url) {
+  show_10446775('pop').then(() => {
+    // ✅ Ad complete → open tool
+    window.open(url, '_blank');
+  }).catch(() => {
+    window.open(url, '_blank');
   });
 }
 </script>
