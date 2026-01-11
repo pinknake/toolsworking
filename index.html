@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- ✅ MONETAG SDK -->
+<script src="//libtl.com/sdk.js"
+        data-zone="10446775"
+        data-sdk="show_10446775"></script>
+
+<title>BharatVerse Tools 🇮🇳</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@500&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+
+<style>
+body {
+  font-family: 'Hind', sans-serif;
+  background: linear-gradient(to bottom right, #ff9933, #ffffff, #138808);
+  margin: 0;
+  padding: 20px;
+}
+
+h1,h2 {
+  text-align: center;
+}
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px;
+}
+
+.card {
+  background: #fff;
+  min-width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  padding: 15px;
+  text-align: center;
+}
+
+.card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.install-btn, .open-btn, .reward-btn {
+  display: inline-block;
+  margin-top: 10px;
+  background: linear-gradient(to right, #00c853, #64dd17);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.reward-btn {
+  background: linear-gradient(to right, #ff5722, #ff9800);
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🇮🇳 BharatVerse App Tools Store</h2>
+
+<div class="scroll-container">
+
+<!-- CARD 1 -->
+<div class="card">
+  <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png">
+  <h3>QR Tool</h3>
+  <p>Scan & generate QR codes</p>
+
+  <button class="reward-btn" onclick="watchAd()">
+    🎁 Watch Ad to Download
+  </button>
+</div>
+
+<!-- CARD 2 -->
+<div class="card">
+  <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
+  <h3>Image to PDF</h3>
+  <p>Convert images into PDF</p>
+
+  <button class="reward-btn" onclick="watchAd()">
+    🎁 Unlock Tool
+  </button>
+</div>
+
+</div>
+
+<div class="footer">Made with ❤️ in BharatVerse 🇮🇳</div>
+
+<!-- ✅ REWARDED AD SCRIPT -->
+<script>
+function watchAd() {
+  show_10446775().then(() => {
+    alert("✅ Ad watched successfully!\nReward unlocked 🎉");
+    
+    // 👉 Yahan reward logic daal sakta hai
+    // example: window.location.href = "QR_Scanner(3).apk";
+
+  }).catch(() => {
+    alert("❌ Ad failed or blocked. Try again.");
+  });
+}
+</script>
+
+</body>
+</html>
